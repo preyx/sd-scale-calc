@@ -71,7 +71,7 @@
         var target_width, target_height, calc_width, calc_height;
         const minsize = 64, maxsize = 2048, defsize = 512;
 
-        const debugmode = true;
+        const debugmode = false;
         function log(message) {
             if (debugmode) { console.log(message); }
         }
@@ -130,46 +130,6 @@
 
         function writeIDval(ID, toWrite) {
             document.querySelector('#' + ID).value = Number(toWrite);
-        }
-
-        function getID(ID) {
-            let temp = document.querySelector('#' + ID).valueAsNumber;
-            return (temp > 0 && temp < 9999) ? temp : 0;
-        }
-
-        function printRel() {
-            if (avgdps && avghps && refdps && refhps) {
-                reldps = avgdps / refdps - 1;
-                relhps = avghps / refhps - 1;
-                writeID('reldps', (reldps * 100).toFixed(2) + '%');
-                writeID('relhps', (relhps * 100).toFixed(2) + '%');
-            } else {
-                writeID('reldps', '- - . - %');
-                writeID('relhps', '- - . - %');
-            }
-        }
-
-        function getRefs() {
-            refdmg = getID('refdmg');
-            refmnd = getID('refmnd');
-            refpie = getID('refpie');
-            refdh = getID('refdh');
-            refcrt = getID('refcrt');
-            refdet = getID('refdet');
-            refsps = getID('refsps');
-            if (refdmg && refmnd && refpie && refdh && refcrt && refdet && refsps) {
-                refgcd = Math.floor(0.250 * (1000 - Math.floor(130 * (refsps - baseSub) / levelMod))) / 100;
-                refpps = pps(refsps, refgcd, c3rate, m2rate, resrate, lilyrate);
-                log('refgcd = ' + refgcd);
-                log('refpps = ' + refpps);
-                refdps = Damage(refpps, refdmg, 115, refmnd, refdet, refcrt, refdh, true, true, true, false, 5);
-                refhps = Healing(100, refdmg, 115, refmnd, refdet, 5);
-                log('refdps = ' + refdps);
-                log('refhps = ' + refhps);
-            } else {
-                refdps = refhps = 0;
-            }
-            printRel();
         }
 
         // EVENT HANDLERS
